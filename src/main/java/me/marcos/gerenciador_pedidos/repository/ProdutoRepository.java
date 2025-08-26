@@ -43,19 +43,19 @@ public interface ProdutoRepository extends JpaRepository<Produto, Long> {
     @Query("SELECT p FROM Produto p ORDER by p.preco DESC")
     List<Produto> buscarOrdenadoPorPrecoDesc();
 
-    @Query("SELECT p FROM Produto WHERE p.nome ILIKE :letra% ")
+    @Query("SELECT p FROM Produto p WHERE p.nome ILIKE :letra% ")
     List<Produto> buscarProdutosPorLetraInicial(@Param("letra") String letra);
 
-    @Query("SELECT AVG(p.preco) FROM PRODUTO p")
+    @Query("SELECT AVG(p.preco) FROM Produto p")
     Double calcularMediaPrecoProdutos();
 
-    @Query("SELECT MAX(p.preco) FROM PRODUTO p WHERE p.categoria.nome = :categoria")
+    @Query("SELECT MAX(p.preco) FROM Produto p WHERE p.categoria.nome = :categoria")
     Double buscarPrecoMaximoPorCategoria(@Param("categoria") String categoria);
 
-    @Query("SELECT p.nome, COUNT(p) FROM PRODUTO p INNER JOIN Categoria c GROUP BY c.nome")
+    @Query("SELECT p.nome, COUNT(p) FROM Produto p INNER JOIN Categoria c GROUP BY c.nome")
     List<Object[]> contarProdutosPorCategoria();
 
-    @Query("SELECT p.nome, COUNT(p) FROM PRODUTO p INNER JOIN Categoria c GROUP BY c.nome HAVING COUNT(p) > :quantidade")
+    @Query("SELECT p.nome, COUNT(p) FROM Produto p INNER JOIN Categoria c GROUP BY c.nome HAVING COUNT(p) > :quantidade")
     List<Object[]> categoriaComMaisDe(@Param("quantidade") long quantidade);
 
     @Query("SELECT p FROM Produto p WHERE (:nome IS NULL OR p.nome = :nome) AND (:categoria IS NULL OR p.categoria.nome = :categoria) ")
